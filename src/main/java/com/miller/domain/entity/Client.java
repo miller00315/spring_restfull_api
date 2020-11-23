@@ -1,5 +1,7 @@
 package com.miller.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,6 +16,10 @@ public class Client {
     @Column(length = 100)
     private String name;
 
+    @Column(length = 11)
+    private String cpf;
+
+    @JsonIgnore // Parser will ignore this property
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY) // One para a classse atual ToMany classe mapeada, mappedBy
     private Set<Solicitation> solicitations;
 
@@ -53,10 +59,19 @@ public class Client {
         this.solicitations = solicitations;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     @Override
     public String toString() {
-        return "Client{ id:" + id +
-                ", name: " + name +
-                "}";
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
