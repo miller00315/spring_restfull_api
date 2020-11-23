@@ -1,9 +1,25 @@
 package com.miller.domain.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class SolicitedItem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
-    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "solicitation_id")
+    private Solicitation solicitation;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column
     private  Integer quantity;
 
     public Integer getId() {
@@ -14,12 +30,12 @@ public class SolicitedItem {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
+    public Solicitation getClient() {
+        return solicitation;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setSolicitation(Solicitation solicitation) {
+        this.solicitation = solicitation;
     }
 
     public Product getProduct() {

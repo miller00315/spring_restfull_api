@@ -1,18 +1,25 @@
 package com.miller.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
+@Table
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private Integer id;
-    @Column
+
+    @Column(name = "description")
     private String description;
-    @Column
+
+    @Column(name = "unity_price")
     private BigDecimal unity_price;
+
+    @OneToMany(mappedBy = "product")
+    private Set<SolicitedItem> solicitedItems;
 
     public Integer getId() {
         return id;
@@ -36,5 +43,13 @@ public class Product {
 
     public void setUnity_price(BigDecimal unity_price) {
         this.unity_price = unity_price;
+    }
+
+    public Set<SolicitedItem> getSolicitedItems() {
+        return solicitedItems;
+    }
+
+    public void setSolicitedItems(Set<SolicitedItem> solicitedItems) {
+        this.solicitedItems = solicitedItems;
     }
 }

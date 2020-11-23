@@ -29,7 +29,7 @@ public class SellerApplication {
 
             clients.save(client);
 
-            clientList = clients.findByNameLike("Miller Cesar");
+            clientList = clients.findUserByName("Miller Cesar");
 
             clientList.forEach(System.out::println);
 

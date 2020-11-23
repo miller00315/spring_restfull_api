@@ -1,6 +1,7 @@
 package com.miller.domain.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -12,6 +13,9 @@ public class Client {
 
     @Column(length = 100)
     private String name;
+
+    @OneToMany(mappedBy = "client") // One para a classse atual ToMany classe mapeada, mappedBy
+    private Set<Solicitation> solicitations;
 
     public Client() {
     }
@@ -39,6 +43,14 @@ public class Client {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Solicitation> getSolicitations() {
+        return solicitations;
+    }
+
+    public void setSolicitations(Set<Solicitation> solicitations) {
+        this.solicitations = solicitations;
     }
 
     @Override
