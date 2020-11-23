@@ -4,14 +4,16 @@ import com.miller.domain.entity.Client;
 import com.miller.domain.repository.Clients;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/api/clients")
 public class ClientController {
 
@@ -25,62 +27,50 @@ public class ClientController {
             value = {"/hello/{clientName}", "/hi/{clientName}"}, // Can direct the request to many urls
             method = RequestMethod.GET
     )
-    @ResponseBody
     public String helloClients(@PathVariable("clientName") String clientName) {
         return String.format("Hello %s", clientName);
     }
 
     @GetMapping(
-        value = {"/{id}"}
+        value = {"{id}"}
     )
-    @ResponseBody
-    public ResponseEntity<Client> getClientById(@PathVariable Integer id){ // Direct mapping by name of variable
+    public Client getClientById(@PathVariable Integer id){ // Direct mapping by name of variable
 
-        Optional<Client> client = clients.findById(id);
-
-        if(client.isPresent())
-            return ResponseEntity.ok(client.get()); // Get the client from optional
-
-        return ResponseEntity.notFound().build();
-
+        return clients.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 
     @PostMapping // Reuse controller api url for post method
-    @ResponseBody
-    public ResponseEntity<Client> saveClient(@RequestBody Client client) { // Map from body of request
-        Client lastSaveClient = clients.save(client);
+    @ResponseStatus(HttpStatus.CREATED) // Return the correct status code
+    public Client saveClient(@RequestBody Client client) { // Map from body of request
+        return clients.save(client);
 
-        return ResponseEntity.ok(lastSaveClient);
     }
 
-    @DeleteMapping(value = "/{id}")
-    @ResponseBody
-    public ResponseEntity deleteClient(@PathVariable Integer id) {
-        Optional<Client> client = clients.findById(id);
+    @DeleteMapping(value = "{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteClient(@PathVariable Integer id) {
+       clients.findById(id)
+               .map(client -> {
+                   clients.delete(client);
+                   return client;
+               })
+               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
 
-        if(client.isPresent()) {
-            clients.delete(client.get());
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.notFound().build();
     }
 
-    @PutMapping(value = "/{id}")
-    @ResponseBody
-    public  ResponseEntity updateClient(@RequestBody Client client, @PathVariable Integer id) {
-        return clients.findById(id).map( existClient -> {
-
+    @PutMapping(value = "{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateClient(@RequestBody Client client, @PathVariable Integer id) {
+        clients.findById(id).map(existClient -> {
             client.setId(existClient.getId());
             clients.save(client);
-
-            return ResponseEntity.noContent().build();
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+            return client;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 
     @GetMapping
-    @ResponseBody
-    public ResponseEntity searchClients(Client filter) {
+    public List<Client> searchClients(Client filter) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withIgnoreCase()
@@ -89,8 +79,6 @@ public class ClientController {
 
         Example<Client> example = Example.of(filter, matcher);
 
-        List<Client> clientList = clients.findAll(example);
-
-        return ResponseEntity.ok(clientList);
+        return clients.findAll(example);
     }
 }
