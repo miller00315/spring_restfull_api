@@ -11,11 +11,14 @@ import java.util.List;
 public interface Clients extends JpaRepository<Client, Integer> {
 
     @Query(value = "select c from Client c where c.name like :name") // Consulta hql
-    List<Client> findUserByName( @Param(value = "name") String name);
+    List<Client> findClientByName(@Param(value = "name") String name);
 
-    @Query(value = " delete from Client c where c.name =:name ")
+    @Query(value = " delete from Client c where c.name = :name ")
     @Modifying
     void deleteByName(String name);
 
     boolean existsByName(String name);
+
+    @Query(value = " select c from Client c left join fetch c.solicitations where c.id = :id " ) // left tras clientes tendo pedidos ou não
+    Client findClientFetchSolicitation(@Param("id") Integer id);
 }

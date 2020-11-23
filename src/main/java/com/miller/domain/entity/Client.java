@@ -14,7 +14,7 @@ public class Client {
     @Column(length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "client") // One para a classse atual ToMany classe mapeada, mappedBy
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY) // One para a classse atual ToMany classe mapeada, mappedBy
     private Set<Solicitation> solicitations;
 
     public Client() {
@@ -55,6 +55,8 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{ id:" + id + ", name: " + name + "} \n";
+        return "Client{ id:" + id +
+                ", name: " + name +
+                "}";
     }
 }

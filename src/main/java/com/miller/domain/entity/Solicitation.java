@@ -21,7 +21,7 @@ public class Solicitation {
     @Column(name = "solicited_at")
     private LocalDate solicited_at;
 
-    @Column(name = "total", length = 20, precision = 2) // Tamanho e precisão das casas decimais
+    @Column(name = "total", precision = 20, scale = 2) // Precisão quantidade de casas e scale casas decimais
     private BigDecimal total;
 
     @OneToMany(mappedBy = "solicitation")
@@ -57,5 +57,13 @@ public class Solicitation {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "Solicitation: { id: " + id +
+                ", solicitedAt: " + solicited_at +
+                ", total: "+ total +
+                "}";
     }
 }
