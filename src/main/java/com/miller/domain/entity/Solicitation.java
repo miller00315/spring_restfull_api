@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Solicitation {
     private Client client;
 
     @Column(name = "solicited_at")
+    @NotNull(message = "solicited_at cannot be empty")
     private LocalDate solicited_at;
 
     @Column(name = "total", precision = 20, scale = 2) // Precisão quantidade de casas e scale casas decimais

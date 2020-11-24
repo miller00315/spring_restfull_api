@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,7 @@ public class ClientController {
 
     @PostMapping // Reuse controller api url for post method
     @ResponseStatus(HttpStatus.CREATED) // Return the correct status code
-    public Client saveClient(@RequestBody Client client) { // Map from body of request
+    public Client saveClient(@RequestBody @Valid Client client) { // Map from body of request
         return clients.save(client);
 
     }
@@ -58,7 +59,7 @@ public class ClientController {
 
     @PutMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClient(@RequestBody Client client, @PathVariable Integer id) {
+    public void updateClient(@RequestBody @Valid Client client, @PathVariable Integer id) {
         clients.findById(id).map(existClient -> {
             client.setId(existClient.getId());
             clients.save(client);
