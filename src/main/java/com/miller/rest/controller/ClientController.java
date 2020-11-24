@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/clients")
 public class ClientController {
 
-    private Clients clients;
+    private final Clients clients;
 
     public ClientController(Clients clients) { // Get from context because this class is a controller
         this.clients = clients;
