@@ -4,7 +4,7 @@ import com.miller.domain.entity.Product;
 import com.miller.domain.repository.Products;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,28 +20,28 @@ public class ProductController {
     @GetMapping(value = "{id}")
     public Product getProductById(@PathVariable Integer id) {
         return  repository.findById(id).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+                orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public Product saveProduct(@RequestBody Product product) {
         return repository.save(product);
     }
 
     @DeleteMapping(value = "{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     public void deleteProduct(@PathVariable Integer id) {
         repository.findById(id)
                 .map(product -> {
                     repository.delete(product);
                     return product;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
     }
 
     @PutMapping(value = "{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     public void updateProduct(@PathVariable Integer id, @RequestBody Product product) {
         repository.findById(id)
                 .map(existsProduct -> {
@@ -49,7 +49,7 @@ public class ProductController {
                     repository.save(product);
                     return Void.TYPE;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
     }
 
     @GetMapping
