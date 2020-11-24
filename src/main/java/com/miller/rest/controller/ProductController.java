@@ -35,7 +35,7 @@ public class ProductController {
         repository.findById(id)
                 .map(product -> {
                     repository.delete(product);
-                    return product;
+                    return Void.TYPE;
                 })
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
     }
