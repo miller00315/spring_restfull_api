@@ -13,28 +13,28 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final Products products;
+    private final Products repository;
 
-    public ProductController(Products products) { this.products = products; }
+    public ProductController(Products repository) { this.repository = repository; }
 
     @GetMapping(value = "{id}")
     public Product getProductById(@PathVariable Integer id) {
-        return  products.findById(id).
+        return  repository.findById(id).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product saveProduct(@RequestBody Product product) {
-        return products.save(product);
+        return repository.save(product);
     }
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Integer id) {
-        products.findById(id)
+        repository.findById(id)
                 .map(product -> {
-                    products.delete(product);
+                    repository.delete(product);
                     return product;
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
@@ -43,11 +43,11 @@ public class ProductController {
     @PutMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-        products.findById(id)
+        repository.findById(id)
                 .map(existsProduct -> {
                     product.setId(existsProduct.getId());
-                    products.save(product);
-                    return product;
+                    repository.save(product);
+                    return Void.TYPE;
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }
@@ -62,6 +62,6 @@ public class ProductController {
 
         Example<Product> example = Example.of(filter, matcher);
 
-        return products.findAll(example);
+        return repository.findAll(example);
     }
 }
