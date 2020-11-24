@@ -5,10 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table
 public class SolicitedItem {
 
     @Id

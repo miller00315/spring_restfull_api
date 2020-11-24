@@ -36,6 +36,9 @@ public class SolicitationServiceImplementation implements SolicitationService {
     public Solicitation saveSolicitation(SolicitationRequestDTO dto) {
         Solicitation solicitation = new Solicitation();
 
+        if(dto.getClient() == null)
+            throw new BusinessLogicException("Client cannot be null");
+
         Client client = clientsRepository.findById(dto.getClient())
                 .orElseThrow(() -> new BusinessLogicException("Invalid client code"));
 

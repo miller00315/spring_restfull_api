@@ -11,10 +11,10 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
-@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,11 +22,11 @@ public class Product {
     private Integer id;
 
     @Column(name = "description")
-    @NotEmpty(message = "Description cannot be null")
+    @NotEmpty(message = "{field.description.empty}")
     private String description;
 
     @Column(name = "unity_price")
-    @NotNull(message = "unity_price cannot be empty")
+    @NotNull(message = "{field.price.empty}")
     private BigDecimal unity_price;
 
     @OneToMany(mappedBy = "product")

@@ -1,6 +1,7 @@
 package com.miller.domain.entity;
 
 import com.miller.domain.enums.SolicitationStatus;
+import com.miller.validation.NotEmptyList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table
 public class Solicitation {
 
     @Id
@@ -23,14 +24,17 @@ public class Solicitation {
     @Column(name = "id")
     private Integer id;
 
+    @NotNull(message = "{field.client.code.empty}")
     @ManyToOne // Many atual ToOne outra entidade mapeada
     @JoinColumn(name = "client_id")
     private Client client;
 
+
+    @NotNull(message = "{field.solicited.at.empty}" )
     @Column(name = "solicited_at")
-    @NotNull(message = "solicited_at cannot be empty")
     private LocalDate solicited_at;
 
+    @NotNull(message = "{field.total.solicitation.empty}")
     @Column(name = "total", precision = 20, scale = 2) // Precisão quantidade de casas e scale casas decimais
     private BigDecimal total;
 

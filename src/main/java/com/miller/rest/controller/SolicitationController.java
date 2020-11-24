@@ -11,6 +11,7 @@ import com.miller.service.SolicitationService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class SolicitationController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Integer saveSolicitation(@RequestBody SolicitationRequestDTO dto) {
+    public Integer saveSolicitation(@RequestBody @Valid SolicitationRequestDTO dto) {
         return service.saveSolicitation(dto).getId();
     }
 
