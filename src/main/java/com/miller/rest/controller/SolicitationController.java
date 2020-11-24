@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/solicitations")
-public class SolicitationConntroller {
+public class SolicitationController {
 
     private final Solicitations repository;
 
-    public SolicitationConntroller(Solicitations repository) {
+    public SolicitationController(Solicitations repository) {
         this.repository = repository;
     }
 }
