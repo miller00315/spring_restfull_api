@@ -1,9 +1,14 @@
 package com.miller.domain.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class SolicitedItem {
 
     @Id
@@ -21,36 +26,4 @@ public class SolicitedItem {
 
     @Column
     private  Integer quantity;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Solicitation getClient() {
-        return solicitation;
-    }
-
-    public void setSolicitation(Solicitation solicitation) {
-        this.solicitation = solicitation;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
 }

@@ -1,12 +1,20 @@
 package com.miller.domain.entity;
 
+import com.miller.domain.enums.SolicitationStatus;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Solicitation {
 
     @Id
@@ -24,46 +32,10 @@ public class Solicitation {
     @Column(name = "total", precision = 20, scale = 2) // Precisão quantidade de casas e scale casas decimais
     private BigDecimal total;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private SolicitationStatus status;
+
     @OneToMany(mappedBy = "solicitation")
-    private Set<SolicitedItem> solicitedItems;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public LocalDate getSolicited_at() {
-        return solicited_at;
-    }
-
-    public void setSolicited_at(LocalDate solicited_at) {
-        this.solicited_at = solicited_at;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    @Override
-    public String toString() {
-        return "Solicitation: { id: " + id +
-                ", solicitedAt: " + solicited_at +
-                ", total: "+ total +
-                "}";
-    }
+    private List<SolicitedItem> solicitedItems;
 }
