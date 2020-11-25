@@ -1,5 +1,7 @@
 package com.miller.config;
 
+import com.miller.implementation.UserServiceImplementation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserServiceImplementation userService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -18,11 +23,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+      auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/api/clients/**")
+                        .hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/api/products/**")
+                        .hasRole("ADMIN")
+                    .antMatchers("/api/solicitations/**")
+                        .hasAnyRole("USER", "ADMIN")
+                .and()
+                    .httpBasic();
+
     }
 }
