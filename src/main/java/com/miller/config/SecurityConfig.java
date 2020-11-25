@@ -1,6 +1,6 @@
 package com.miller.config;
 
-import com.miller.implementation.UserServiceImplementation;
+import com.miller.service.implementation.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

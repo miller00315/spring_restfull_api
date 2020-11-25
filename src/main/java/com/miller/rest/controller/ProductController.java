@@ -1,7 +1,7 @@
 package com.miller.rest.controller;
 
 import com.miller.domain.entity.Product;
-import com.miller.domain.repository.Products;
+import com.miller.domain.repository.ProductRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import static org.springframework.http.HttpStatus.*;
@@ -14,9 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final Products repository;
+    private final ProductRepository repository;
 
-    public ProductController(Products repository) { this.repository = repository; }
+    public ProductController(ProductRepository repository) { this.repository = repository; }
 
     @GetMapping(value = "{id}")
     public Product getProductById(@PathVariable Integer id) {

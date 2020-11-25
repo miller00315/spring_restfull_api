@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface Solicitations extends JpaRepository<Solicitation, Integer>{
+public interface SolicitationRepository extends JpaRepository<Solicitation, Integer>{
     @Query ("select s from Solicitation s left join fetch s.solicitedItems where s.id = :id")
     Optional<Solicitation> findByIdFetchSolicitedItems(@Param("id") Integer id);
 }

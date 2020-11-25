@@ -1,7 +1,7 @@
 package com.miller.rest.controller;
 
 import com.miller.domain.entity.Client;
-import com.miller.domain.repository.Clients;
+import com.miller.domain.repository.ClientRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,10 @@ import java.util.List;
 @RequestMapping("/api/clients")
 public class ClientController {
 
-    private final Clients clients;
+    private final ClientRepository clientRepository;
 
-    public ClientController(Clients clients) { // Get from context because this class is a controller
-        this.clients = clients;
+    public ClientController(ClientRepository clientRepository) { // Get from context because this class is a controller
+        this.clientRepository = clientRepository;
     }
 
     @RequestMapping(
@@ -34,23 +34,23 @@ public class ClientController {
     )
     public Client getClientById(@PathVariable Integer id){ // Direct mapping by name of variable
 
-        return clients.findById(id)
+        return clientRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 
     @PostMapping // Reuse controller api url for post method
     @ResponseStatus(HttpStatus.CREATED) // Return the correct status code
     public Client saveClient(@RequestBody @Valid Client client) { // Map from body of request
-        return clients.save(client);
+        return clientRepository.save(client);
 
     }
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClient(@PathVariable Integer id) {
-       clients.findById(id)
+       clientRepository.findById(id)
                .map(client -> {
-                   clients.delete(client);
+                   clientRepository.delete(client);
                    return client;
                })
                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
@@ -60,9 +60,9 @@ public class ClientController {
     @PutMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateClient(@RequestBody @Valid Client client, @PathVariable Integer id) {
-        clients.findById(id).map(existClient -> {
+        clientRepository.findById(id).map(existClient -> {
             client.setId(existClient.getId());
-            clients.save(client);
+            clientRepository.save(client);
             return client;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
@@ -77,6 +77,6 @@ public class ClientController {
 
         Example<Client> example = Example.of(filter, matcher);
 
-        return clients.findAll(example);
+        return clientRepository.findAll(example);
     }
 }

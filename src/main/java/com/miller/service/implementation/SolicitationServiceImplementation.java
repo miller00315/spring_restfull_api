@@ -1,14 +1,14 @@
-package com.miller.implementation;
+package com.miller.service.implementation;
 
 import com.miller.domain.entity.Client;
 import com.miller.domain.entity.Product;
 import com.miller.domain.entity.Solicitation;
 import com.miller.domain.entity.SolicitedItem;
 import com.miller.domain.enums.SolicitationStatus;
-import com.miller.domain.repository.Clients;
-import com.miller.domain.repository.Products;
-import com.miller.domain.repository.Solicitations;
-import com.miller.domain.repository.SolicitedItems;
+import com.miller.domain.repository.ClientRepository;
+import com.miller.domain.repository.ProductRepository;
+import com.miller.domain.repository.SolicitationRepository;
+import com.miller.domain.repository.SolicitedItemRepository;
 import com.miller.exception.BusinessLogicException;
 import com.miller.exception.SolicitationNotFoundException;
 import com.miller.rest.dto.SolicitationItemRequestDTO;
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SolicitationServiceImplementation implements SolicitationService {
-    private final Solicitations solicitationsRepository;
-    private final Clients clientsRepository;
-    private final Products productRepository;
-    private final SolicitedItems solicitedItemsRepository;
+    private final SolicitationRepository solicitationsRepository;
+    private final ClientRepository clientsRepository;
+    private final ProductRepository productRepository;
+    private final SolicitedItemRepository solicitedItemsRepository;
 
     @Override
     @Transactional // All execute or execute a rollback

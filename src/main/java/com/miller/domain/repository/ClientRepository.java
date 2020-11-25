@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface Clients extends JpaRepository<Client, Integer> {
+public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     @Query(value = "select c from Client c where c.name like :name") // Consulta hql
     List<Client> findClientByName(@Param(value = "name") String name);
