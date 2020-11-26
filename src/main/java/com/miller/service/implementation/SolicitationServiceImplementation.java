@@ -69,7 +69,7 @@ public class SolicitationServiceImplementation implements SolicitationService {
             solicitation.setStatus(status);
             solicitationsRepository.save(solicitation);
             return Void.TYPE;
-        }).orElseThrow(() -> new SolicitationNotFoundException());
+        }).orElseThrow(SolicitationNotFoundException::new);
     }
 
     private List<SolicitedItem> convertItems(Solicitation solicitation, List<SolicitationItemRequestDTO> items) {
