@@ -1,7 +1,7 @@
 package com.miller.rest.controller;
 
-import com.miller.exception.BusinessLogicException;
-import com.miller.exception.SolicitationNotFoundException;
+import com.miller.exceptions.BusinessLogicException;
+import com.miller.exceptions.SolicitationNotFoundException;
 import com.miller.rest.ApiErrors;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

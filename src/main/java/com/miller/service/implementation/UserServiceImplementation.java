@@ -2,7 +2,8 @@ package com.miller.service.implementation;
 
 import com.miller.domain.entity.ApiUser;
 import com.miller.domain.repository.ApiUserRepository;
-import com.miller.exception.UserNameNotFoundException;
+import com.miller.exceptions.InvalidPasswordException;
+import com.miller.exceptions.UserNameNotFoundException;
 import com.miller.rest.dto.ApiUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -57,5 +58,17 @@ public class UserServiceImplementation implements UserDetailsService {
                 .userName(apiUser.getUserName())
                 .admin(apiUser.isAdmin())
                 .build();
+    }
+
+    public  UserDetails authentication(ApiUser apiUser) {
+        UserDetails user = loadUserByUsername(apiUser.getUserName());
+
+        boolean isCorrectPassword = passwordEncoder.matches(apiUser.getPassword(), user.getPassword());
+
+        if(isCorrectPassword){
+            return user;
+        }
+
+        throw new InvalidPasswordException();
     }
 }

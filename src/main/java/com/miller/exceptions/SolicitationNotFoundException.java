@@ -1,4 +1,4 @@
-package com.miller.exception;
+package com.miller.exceptions;
 
 public class SolicitationNotFoundException extends RuntimeException {
     public SolicitationNotFoundException() {

@@ -13,7 +13,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Service
-public class JWTService {
+public class JwtService {
     @Value("${security.jwt.expiration}")
     private String expiration;
 
