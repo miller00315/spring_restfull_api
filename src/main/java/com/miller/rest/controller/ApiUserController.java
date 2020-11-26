@@ -9,7 +9,6 @@ import com.miller.rest.dto.TokenDTO;
 import com.miller.security.jwt.JwtService;
 import com.miller.service.implementation.UserServiceImplementation;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,7 +38,7 @@ public class ApiUserController {
 
             ApiUser apiUser = ApiUser
                     .builder()
-                    .userName(credentials.getUserName())
+                    .username(credentials.getUsername())
                     .password(credentials.getPassword())
                     .build();
 
@@ -47,7 +46,7 @@ public class ApiUserController {
 
             String token = jwtService.generateToken(apiUser);
 
-            return new TokenDTO(apiUser.getUserName(), token);
+            return new TokenDTO(apiUser.getUsername(), token);
         } catch (UserNameNotFoundException | InvalidPasswordException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

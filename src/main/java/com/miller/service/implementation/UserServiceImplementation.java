@@ -29,8 +29,8 @@ public class UserServiceImplementation implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        ApiUser user = apiUserRepository.findByUserName(userName)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        ApiUser user = apiUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNameNotFoundException("Username not found"));
 
         String[] roles = user.isAdmin() ?
@@ -38,7 +38,7 @@ public class UserServiceImplementation implements UserDetailsService {
 
         return User
                 .builder()
-                .username(user.getUserName())
+                .username(user.getUsername())
                 .password(user.getPassword())
                 .roles(roles)
                 .build();
@@ -55,13 +55,13 @@ public class UserServiceImplementation implements UserDetailsService {
         return ApiUserDTO
                 .builder()
                 .id(apiUser.getId())
-                .userName(apiUser.getUserName())
+                .username(apiUser.getUsername())
                 .admin(apiUser.isAdmin())
                 .build();
     }
 
     public  UserDetails authentication(ApiUser apiUser) {
-        UserDetails user = loadUserByUsername(apiUser.getUserName());
+        UserDetails user = loadUserByUsername(apiUser.getUsername());
 
         boolean isCorrectPassword = passwordEncoder.matches(apiUser.getPassword(), user.getPassword());
 

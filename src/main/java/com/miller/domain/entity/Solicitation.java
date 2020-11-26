@@ -1,7 +1,6 @@
 package com.miller.domain.entity;
 
 import com.miller.domain.enums.SolicitationStatus;
-import com.miller.validation.NotEmptyList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,11 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table
+@Table(name="solicitation")
 public class Solicitation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -35,11 +34,11 @@ public class Solicitation {
     private LocalDate solicited_at;
 
     @NotNull(message = "{field.total.solicitation.empty}")
-    @Column(name = "total", precision = 20, scale = 2) // Precisão quantidade de casas e scale casas decimais
+    @Column(name = "TOTAL", precision = 20, scale = 2) // Precisão quantidade de casas e scale casas decimais
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "STATUS")
     private SolicitationStatus status;
 
     @OneToMany(mappedBy = "solicitation")

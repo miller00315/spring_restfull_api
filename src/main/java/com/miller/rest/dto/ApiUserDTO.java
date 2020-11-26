@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ApiUserDTO {
     private Integer id;
-    private String userName;
+    private String username;
     private boolean admin;
 }

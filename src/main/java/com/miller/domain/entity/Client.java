@@ -12,18 +12,18 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table
+@Table(name="client")
 public class Client {
     @Id //Define o identificador da entidade
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, name = "name")
     @NotEmpty(message = "{field.name.empty}")
     private String name;
 
-    @Column(length = 11)
+    @Column(length = 11, name = "cpf")
     @NotEmpty(message = "{field.cpf.empty}")
     @CPF(message = "{field.cpf.invalid}")
     private String cpf;
