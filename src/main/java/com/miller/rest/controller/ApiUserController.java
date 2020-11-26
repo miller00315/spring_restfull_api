@@ -43,8 +43,7 @@ public class ApiUserController {
                     .password(credentials.getPassword())
                     .build();
 
-            UserDetails userDetails = userServiceImplementation
-                                        .authentication(apiUser);
+            userServiceImplementation.authentication(apiUser);
 
             String token = jwtService.generateToken(apiUser);
 
