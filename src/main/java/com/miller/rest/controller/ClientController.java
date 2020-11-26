@@ -2,6 +2,7 @@ package com.miller.rest.controller;
 
 import com.miller.domain.entity.Client;
 import com.miller.domain.repository.ClientRepository;
+import io.swagger.annotations.*;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
+@Api("Clients api")
 public class ClientController {
 
     private final ClientRepository clientRepository;
@@ -32,6 +34,11 @@ public class ClientController {
     @GetMapping(
         value = {"{id}"}
     )
+    @ApiOperation("Get the client by your id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Client founded"),
+            @ApiResponse(code = 404, message = "Client not find for this id")
+    })
     public Client getClientById(@PathVariable Integer id){ // Direct mapping by name of variable
 
         return clientRepository.findById(id)
@@ -40,6 +47,10 @@ public class ClientController {
 
     @PostMapping // Reuse controller api url for post method
     @ResponseStatus(HttpStatus.CREATED) // Return the correct status code
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Client saved"),
+            @ApiResponse(code = 400, message = "Validation error")
+    })
     public Client saveClient(@RequestBody @Valid Client client) { // Map from body of request
         return clientRepository.save(client);
 
@@ -47,7 +58,8 @@ public class ClientController {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteClient(@PathVariable Integer id) {
+    public void deleteClient(@PathVariable
+                                 @ApiParam("Id do client") Integer id) {
        clientRepository.findById(id)
                .map(client -> {
                    clientRepository.delete(client);
