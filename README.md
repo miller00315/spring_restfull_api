@@ -4,5 +4,5 @@
 
 <h3>Para um melhor desenpenho lembre-se de verificar se possui o docker (https://www.docker.com/) instalado em sua máquina </h3>
 
-<p>execute o arquivo init.sh para ter asconfigurações básicas rodando em sua máquina</p>
+<p>Execute o arquivo init.sh para ter as configurações básicas rodando em sua máquina</p>
 
